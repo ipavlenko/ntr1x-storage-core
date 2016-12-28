@@ -8,10 +8,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.springframework.data.domain.Page;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 @XmlRootElement
-@NoArgsConstructor
 @AllArgsConstructor
 public class PageResponse<T> {
 	
@@ -24,6 +22,7 @@ public class PageResponse<T> {
     
     public PageResponse(Page<T> p) {
     	
+    	this.content = p.getContent();
     	this.count = p.getTotalElements();
     	this.page = p.getNumber();
     	this.size = p.getSize();

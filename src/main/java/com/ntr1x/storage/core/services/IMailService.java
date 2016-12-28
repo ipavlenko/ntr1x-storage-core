@@ -5,10 +5,10 @@ import lombok.NoArgsConstructor;
 
 public interface IMailService {
 
-    void sendSignupConfirmation(Lang lang, SignupMessage message);
-    void sendPasswdConfirmation(Lang lang, PasswdMessage message);
+    void sendSignupConfirmation(Lang lang, SignupConfirmation message);
+    void sendRecoverConfirmation(Lang lang, PasswdConfirmation message);
     void sendPasswdNotification(Lang lang, PasswdNotification message);
-	void sendEmailConfirmation(Lang lang, EmailMessage message);
+	void sendEmailConfirmation(Lang lang, EmailConfirmation message);
 	
 	public enum Lang {
 		
@@ -20,7 +20,7 @@ public interface IMailService {
 	
     @NoArgsConstructor
     @AllArgsConstructor
-    public static final class SignupMessage {
+    public static final class SignupConfirmation {
         
         public String email;
         public String confirm;
@@ -28,7 +28,7 @@ public interface IMailService {
     
     @NoArgsConstructor
     @AllArgsConstructor
-    public static final class PasswdMessage {
+    public static final class PasswdConfirmation {
         
         public String email;
         public String confirm;
@@ -43,7 +43,7 @@ public interface IMailService {
 
     @NoArgsConstructor
     @AllArgsConstructor
-    public static final class EmailMessage {
+    public static final class EmailConfirmation {
         
         public String email;
         public String confirm;

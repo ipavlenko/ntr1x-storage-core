@@ -67,7 +67,7 @@ public class MailService  implements IMailService {
     }
     
     @Override
-    public void sendSignupConfirmation(Lang lang, SignupMessage message) {
+    public void sendSignupConfirmation(Lang lang, SignupConfirmation message) {
         
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
             
@@ -92,7 +92,7 @@ public class MailService  implements IMailService {
     }
     
     @Override
-    public void sendPasswdConfirmation(Lang lang, PasswdMessage message) {
+    public void sendRecoverConfirmation(Lang lang, PasswdConfirmation message) {
         
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
             
@@ -101,7 +101,7 @@ public class MailService  implements IMailService {
                 
                 MimeMessageHelper helper = new MimeMessageHelper(mimeMessage); {
                     
-                    Config.Template template = config.templates.get(lang).get("passwd");
+                    Config.Template template = config.templates.get(lang).get("recover");
                     
                     helper.setTo(message.email);
                     helper.setFrom(template.from);
@@ -126,7 +126,7 @@ public class MailService  implements IMailService {
                 
                 MimeMessageHelper helper = new MimeMessageHelper(mimeMessage); {
                     
-                    Config.Template template = config.templates.get(lang).get("passwdNotification");
+                    Config.Template template = config.templates.get(lang).get("passwd");
                     
                     helper.setTo(message.email);
                     helper.setFrom(template.from);
@@ -142,7 +142,7 @@ public class MailService  implements IMailService {
     }
     
     @Override
-    public void sendEmailConfirmation(Lang lang, EmailMessage message) {
+    public void sendEmailConfirmation(Lang lang, EmailConfirmation message) {
         
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
             
