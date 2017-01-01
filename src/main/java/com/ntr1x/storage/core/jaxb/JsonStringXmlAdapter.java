@@ -19,10 +19,12 @@ public class JsonStringXmlAdapter extends XmlAdapter<Object, String> {
 		
 		if (v instanceof Node) {
 			
+//			((Node)v).getTextContent()
 			Transformer transformer = TransformerFactory.newInstance().newTransformer();
 			StreamResult result = new StreamResult(new StringWriter());
 			DOMSource source = new DOMSource((Node) v);
 			transformer.transform(source, result);
+			System.out.println(result.getWriter().toString());
 			return result.getWriter().toString();
 		}
 		

@@ -1,4 +1,4 @@
-package com.ntr1x.storage.core.mappers;
+package com.ntr1x.storage.core.jersey;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,9 +16,9 @@ import com.ntr1x.storage.core.transport.JsonStatus;
 
 @Provider
 @Component
-public class WebApplicationExceptionMapper implements ExceptionMapper<WebApplicationException> {
+public class ExceptionMapperProvider implements ExceptionMapper<WebApplicationException> {
 	
-	private static final Logger LOG = Logger.getLogger(WebApplicationExceptionMapper.class.getName());
+	private static final Logger LOG = Logger.getLogger(ExceptionMapperProvider.class.getName());
 	
 	@Override
 	public Response toResponse(WebApplicationException exception) {
