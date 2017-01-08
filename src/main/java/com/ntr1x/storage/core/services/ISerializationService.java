@@ -1,5 +1,7 @@
 package com.ntr1x.storage.core.services;
 
+import java.net.URL;
+
 import com.fasterxml.jackson.databind.JsonNode;
 
 public interface ISerializationService {
@@ -14,4 +16,7 @@ public interface ISerializationService {
     <T> T parseJSONStringJackson(Class<T> clazz, String string);
     
     <T> T parseJSONNodeJackson(Class<T> clazz, JsonNode node);
+    
+    JsonNode readJSONNodeJackson(String string);
+    JsonNode readJSONNodeJackson(URL url);
 }

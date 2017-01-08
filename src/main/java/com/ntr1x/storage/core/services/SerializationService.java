@@ -2,7 +2,10 @@ package com.ntr1x.storage.core.services;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringReader;
+import java.io.StringWriter;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +18,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.io.IOUtils;
 import org.eclipse.persistence.jaxb.JAXBContextProperties;
 import org.springframework.stereotype.Service;
 
@@ -168,5 +172,34 @@ public class SerializationService implements ISerializationService {
 	public <T> T parseJSONNodeJackson(Class<T> clazz, JsonNode node) {
     	
     	return mapper.convertValue(node, clazz);
+	}
+    
+    @Override
+	public JsonNode readJSONNodeJackson(String string) {
+		
+    	try {
+			
+    		return mapper.readValue(string, JsonNode.class);
+		
+    	} catch (IOException e) {
+			
+			throw new IllegalArgumentException(e);
+		}
+	}
+    
+    @Override
+	public JsonNode readJSONNodeJackson(URL url) {
+    	
+    	try (InputStream input = url.openStream()) {
+			
+			StringWriter writer = new StringWriter();
+			IOUtils.copy(input, writer, "UTF-8");
+			
+			return readJSONNodeJackson(writer.toString());
+			
+		} catch (IOException e) {
+			
+			throw new IllegalArgumentException(e);
+		}
 	}
 }

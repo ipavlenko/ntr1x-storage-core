@@ -52,6 +52,9 @@ public class Resource {
 	@Column(name = "Id")
 	@ApiModelProperty(readOnly = true)
 	private Long id;
+	
+	@Column(name = "Scope", nullable = false, updatable = false)
+    private long scope;
 
 	@Column(name = "Alias")
 	@ApiModelProperty(hidden = true)
