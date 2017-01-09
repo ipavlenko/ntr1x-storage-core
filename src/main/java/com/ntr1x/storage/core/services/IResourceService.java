@@ -15,10 +15,10 @@ import lombok.NoArgsConstructor;
 
 public interface IResourceService {
 
-	Resource select(long id);
-	Resource select(String alias);
+	Resource select(Long scope, long id);
+	Resource select(Long scope, String alias);
 	
-	Page<Resource> query(String pattern, Pageable pageable);
+	Page<Resource> query(Long scope, String pattern, Pageable pageable);
 	
 	@XmlRootElement
     @NoArgsConstructor

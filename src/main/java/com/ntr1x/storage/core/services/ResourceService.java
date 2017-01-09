@@ -16,23 +16,19 @@ public class ResourceService implements IResourceService {
 	private ResourceRepository resources;
 	
 	@Override
-	public Resource select(long id) {
-		
-		return resources.findOne(id);
+	public Resource select(Long scope, long id) {
+		return resources.select(scope, id);
 	}
 	
 	@Override
-	public Resource select(String alias) {
+	public Resource select(Long scope, String alias) {
 		
-		return resources.findByAlias(alias);
+		return resources.select(scope, alias);
 	}
 	
 	@Override
-	public Page<Resource> query(String pattern, Pageable pageable) {
+	public Page<Resource> query(Long scope, String pattern, Pageable pageable) {
 		
-		return pattern == null
-			? resources.findOrderByAlias(pageable)
-			: resources.findByAliasLikeOrderByAlias(pattern, pageable)
-		;
+		return resources.query(scope, pattern, pageable);
 	}
 }

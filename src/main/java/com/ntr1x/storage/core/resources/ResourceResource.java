@@ -2,6 +2,7 @@ package com.ntr1x.storage.core.resources;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
+import javax.inject.Provider;
 import javax.transaction.Transactional;
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.GET;
@@ -14,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import com.ntr1x.storage.core.filters.IUserScope;
 import com.ntr1x.storage.core.model.Resource;
 import com.ntr1x.storage.core.services.IResourceService;
 import com.ntr1x.storage.core.services.IResourceService.ResourcePageResponse;
@@ -30,6 +32,9 @@ public class ResourceResource {
 	@Inject
 	private IResourceService resources;
 	
+	@Inject
+	private Provider<IUserScope> scope;
+	
 	@GET
     @Produces(MediaType.APPLICATION_JSON)
 	@Transactional
@@ -40,6 +45,7 @@ public class ResourceResource {
     ) {
 		
 		Page<Resource> p = resources.query(
+			scope.get().getId(),
 			pattern,
 			pageable.toPageRequest()
 		);
@@ -58,7 +64,7 @@ public class ResourceResource {
 	@Transactional
 	@RolesAllowed({ "res:///:admin" })
 	public Resource select(@PathParam("id") long id) {
-		return resources.select(id);
+		return resources.select(scope.get().getId(), id);
     }
 	
 	@GET
@@ -67,6 +73,6 @@ public class ResourceResource {
 	@Transactional
 	@RolesAllowed({ "res:///:admin" })
 	public Resource select(@PathParam("alias") String alias) {
-		return resources.select(alias);
+		return resources.select(scope.get().getId(), alias);
     }
 }
