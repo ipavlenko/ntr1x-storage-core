@@ -1,51 +1,32 @@
 package com.ntr1x.storage.core.services;
 
+import java.util.Properties;
+import java.util.function.Function;
+import java.util.function.Supplier;
+
+import org.springframework.mail.javamail.JavaMailSender;
+
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 public interface IMailService {
-
-    void sendSignupConfirmation(Lang lang, SignupConfirmation message);
-    void sendRecoverConfirmation(Lang lang, PasswdConfirmation message);
-    void sendPasswdNotification(Lang lang, PasswdNotification message);
-	void sendEmailConfirmation(Lang lang, EmailConfirmation message);
 	
-	public enum Lang {
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class Template {
 		
-		en,
-		ru
-		
-		;
+		public String from;
+		public String subject;
+		public String content;
 	}
 	
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static final class SignupConfirmation {
-        
-        public String email;
-        public String confirm;
-    }
-    
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static final class PasswdConfirmation {
-        
-        public String email;
-        public String confirm;
-    }
-    
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static final class PasswdNotification {
-        
-        public String email;
-    }
+	@RequiredArgsConstructor
+	public static class MailScope {
+		
+		public final Function<String, Template> template;
+		public final Supplier<Properties> properties;
+	}
 
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static final class EmailConfirmation {
-        
-        public String email;
-        public String confirm;
-    }
+	JavaMailSender sender(MailScope scope);
 }

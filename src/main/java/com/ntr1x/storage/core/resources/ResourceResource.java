@@ -1,5 +1,6 @@
 package com.ntr1x.storage.core.resources;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -24,9 +25,10 @@ import com.ntr1x.storage.core.transport.PageableQuery;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 
-@Path("resources")
 @Api("Resources")
+@Path("resources")
 @Component
+@PermitAll
 public class ResourceResource {
 	
 	@Inject

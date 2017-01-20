@@ -20,11 +20,9 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.eclipse.persistence.annotations.CascadeOnDelete;
@@ -68,13 +66,6 @@ public class Resource {
 	@Column(name="Aspect")
 	@CascadeOnDelete
 	private List<String> aspects;
-	
-	@ResourceRelation
-    @XmlElement
-    @OneToMany(mappedBy = "relate")
-    @CascadeOnDelete
-    @ApiModelProperty(hidden = true)
-    private List<ResourceImage> images;
 	
 	@Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
     @Retention(RetentionPolicy.RUNTIME)

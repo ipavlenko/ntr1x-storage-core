@@ -1,168 +1,45 @@
 package com.ntr1x.storage.core.services;
 
-import java.io.StringWriter;
-import java.util.Date;
-import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Properties;
 
-import javax.inject.Inject;
-import javax.mail.internet.MimeMessage;
-
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
-import com.google.common.collect.ImmutableMap;
-
-import lombok.Getter;
-import lombok.Setter;
-
 @Service
-public class MailService  implements IMailService {
-    
-    @Setter
-    @Getter
-    @Configuration
-    @ConfigurationProperties(prefix = "app.mail")
-    public static class Config {
-        
-    	private Map<String, String> params;
-        private Map<Lang, Map<String, Template>> templates;
-        
-        @Setter
-        @Getter
-        public static class Template {
-            
-            private String from;
-            private String subject;
-            private String path;
-            private Map<String, String> params;
-        }
-    }
-    
-    @Inject
-    private Config config;
-    
-    @Inject
-    private JavaMailSender sender;
-    
-    @Inject
-    private VelocityEngine velocity;
-    
-    public String text(Config.Template template, Map<String, String> params) {
+public class MailService implements IMailService {
+	
+    @Override
+    public JavaMailSender sender(MailScope scope) {
     	
-    	VelocityContext context = new VelocityContext();
+    	JavaMailSenderImpl sender = new JavaMailSenderImpl();
     	
-    	context.put("mail", config.params);
-		context.put("template", template.params);
-		context.put("message", params);
-        
-		StringWriter writer = new StringWriter();
-        velocity.mergeTemplate(template.path, "UTF-8", context, writer);
-        return writer.toString();
-    }
-    
-    @Override
-    public void sendSignupConfirmation(Lang lang, SignupConfirmation message) {
-        
-        MimeMessagePreparator preparator = new MimeMessagePreparator() {
-            
-            @Override
-            public void prepare(MimeMessage mimeMessage) throws Exception {
-                
-                MimeMessageHelper helper = new MimeMessageHelper(mimeMessage); {
-                    
-                    Config.Template template = config.templates.get(lang).get("signup");
-                    
-                    helper.setTo(message.email);
-                    helper.setFrom(template.from);
-                    helper.setSubject(template.subject);
-                    helper.setSentDate(new Date());
-                    
-                    helper.setText(text(template, ImmutableMap.of("token", message.confirm)), true);
-                }
-            }
-        };
-        
-        sender.send(preparator);
-    }
-    
-    @Override
-    public void sendRecoverConfirmation(Lang lang, PasswdConfirmation message) {
-        
-        MimeMessagePreparator preparator = new MimeMessagePreparator() {
-            
-            @Override
-            public void prepare(MimeMessage mimeMessage) throws Exception {
-                
-                MimeMessageHelper helper = new MimeMessageHelper(mimeMessage); {
-                    
-                    Config.Template template = config.templates.get(lang).get("recover");
-                    
-                    helper.setTo(message.email);
-                    helper.setFrom(template.from);
-                    helper.setSubject(template.subject);
-                    helper.setSentDate(new Date());
-                    
-                    helper.setText(text(template, ImmutableMap.of("token", message.confirm)), true);
-                }
-            }
-        };
-        
-        sender.send(preparator);
-    }
-    
-    @Override
-    public void sendPasswdNotification(Lang lang, PasswdNotification message) {
-        
-        MimeMessagePreparator preparator = new MimeMessagePreparator() {
-            
-            @Override
-            public void prepare(MimeMessage mimeMessage) throws Exception {
-                
-                MimeMessageHelper helper = new MimeMessageHelper(mimeMessage); {
-                    
-                    Config.Template template = config.templates.get(lang).get("passwd");
-                    
-                    helper.setTo(message.email);
-                    helper.setFrom(template.from);
-                    helper.setSubject(template.subject);
-                    helper.setSentDate(new Date());
-                    
-                    helper.setText(text(template, null), true);
-                }
-            }
-        };
-        
-        sender.send(preparator);
-    }
-    
-    @Override
-    public void sendEmailConfirmation(Lang lang, EmailConfirmation message) {
-        
-        MimeMessagePreparator preparator = new MimeMessagePreparator() {
-            
-            @Override
-            public void prepare(MimeMessage mimeMessage) throws Exception {
-                
-                MimeMessageHelper helper = new MimeMessageHelper(mimeMessage); {
-                    
-                    Config.Template template = config.templates.get(lang).get("email");
-                    
-                    helper.setTo(message.email);
-                    helper.setFrom(template.from);
-                    helper.setSubject(template.subject);
-                    helper.setSentDate(new Date());
-                    
-                    helper.setText(text(template, ImmutableMap.of("token", message.confirm)), true);
-                }
-            }
-        };
-        
-        sender.send(preparator);
+    	Properties properties = scope.properties.get();
+    	
+    	Properties mailProperties = new Properties(); {
+    		
+    		for (Entry<?, ?> entry : properties.entrySet()) {
+				
+    			String key = (String) entry.getKey();
+    			String value = (String) entry.getValue();
+    			
+    			if (key.startsWith("mail.properties.")) {
+					mailProperties.put(key.substring("mail.properties.".length()), value);
+				}
+			}
+    	}
+    	
+    	mailProperties.put("mail.smtp.connectiontimeout", 3000);
+    	
+    	sender.setJavaMailProperties(mailProperties);
+    	
+    	sender.setHost(properties.getProperty("mail.host"));
+    	sender.setPort(Integer.parseInt(properties.getProperty("mail.port")));
+    	sender.setProtocol(properties.getProperty("mail.protocol"));
+    	sender.setUsername(properties.getProperty("mail.username"));
+    	sender.setPassword(properties.getProperty("mail.password"));
+    	
+    	return sender;
     }
 }

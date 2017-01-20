@@ -10,8 +10,6 @@ import com.ntr1x.storage.core.model.Resource;
 
 public interface ResourceRepository extends JpaRepository<Resource, Long> {
 	
-	Page<Resource> findByAliasLikeOrderByAlias(String pattern, Pageable pageable);
-	
 	@Query(
 		" SELECT r"
 	  + " FROM Resource r"
