@@ -47,7 +47,7 @@ public class ParamService implements IParamService {
 	@Override
 	public void createParams(Resource resource, RelatedParam[] related) {
 		
-		if (params != null) {
+		if (related != null) {
             
             for (RelatedParam p : related) {
                 
@@ -70,7 +70,7 @@ public class ParamService implements IParamService {
 	@Override
 	public void updateParams(Resource resource, RelatedParam[] related) {
 		
-		if (params != null) {
+		if (related != null) {
             
             for (RelatedParam p : related) {
                 
