@@ -24,6 +24,10 @@ public interface IMailService {
 	@RequiredArgsConstructor
 	public static class MailScope {
 		
+		public final String proto;
+		public final String host;
+		public final String portal;
+		
 		public final Function<String, Template> template;
 		public final Supplier<Properties> properties;
 	}
