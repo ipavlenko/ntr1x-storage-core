@@ -26,7 +26,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 
 @Api("Resources")
-@Path("resources")
+@Path("/resources")
 @Component
 @PermitAll
 public class ResourceResource {

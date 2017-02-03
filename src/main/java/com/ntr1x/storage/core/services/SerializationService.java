@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBContext;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ntr1x.storage.core.converter.JsonNodeConverter;
 
 @Service
 public class SerializationService implements ISerializationService {
@@ -34,6 +36,11 @@ public class SerializationService implements ISerializationService {
     
 	@Inject
 	private ObjectMapper mapper;
+	
+	@PostConstruct
+	private void init() {
+		JsonNodeConverter.setSerializationService(this);
+	}
 	
     @Override
     public String toJSONStringMOXY(Object object, Class<?>... context) {

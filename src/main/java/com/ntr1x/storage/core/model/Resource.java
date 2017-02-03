@@ -20,6 +20,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -27,6 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.eclipse.persistence.annotations.CascadeOnDelete;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.ntr1x.storage.core.filtering.ResourceFiltering;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -58,6 +60,11 @@ public class Resource {
 	@ApiModelProperty(hidden = true)
 	@ResourceExtra
 	private String alias;
+	
+	@Lob
+	@Column(name = "Extra", nullable = true)
+	@ApiModelProperty(dataType = "Object")
+	private JsonNode extra;
 	
 	@ResourceRelation
 	@ApiModelProperty(hidden = true)
