@@ -9,9 +9,9 @@ public interface IScaleImageService {
         COVER,
         CONTAIN,
         SCALE,
-        
+        LIMIT
         ;
     }
 
-    BufferedImage scale(BufferedImage source, Type type, int width, int height) throws IOException;
+    BufferedImage scale(BufferedImage source, Type type, Integer width, Integer height) throws IOException;
 }

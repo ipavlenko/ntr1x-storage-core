@@ -13,12 +13,12 @@ import org.springframework.stereotype.Service;
 public class ScaleImageService implements IScaleImageService {
 
     @Override
-    public BufferedImage scale(BufferedImage source, Type type, int width, int height) throws IOException {
+    public BufferedImage scale(BufferedImage source, Type type, Integer width, Integer height) throws IOException {
         
         Rectangle bounds = bounds(
             type,
             new Dimension(source.getWidth(), source.getHeight()),
-            new Dimension(width, height)
+            new Dimension(width == null ? -1 : width, height == null ? -1 : height)
         );
         
         Image scaled = source.getScaledInstance(
@@ -28,8 +28,8 @@ public class ScaleImageService implements IScaleImageService {
         );
 
         BufferedImage target = new BufferedImage(
-            width < 0 ? scaled.getWidth(null) : width,
-            height < 0 ? scaled.getHeight(null) : height,
+            width == null ? scaled.getWidth(null) : width,
+            height == null ? scaled.getHeight(null) : height,
             BufferedImage.SCALE_DEFAULT
         );
         
@@ -49,16 +49,31 @@ public class ScaleImageService implements IScaleImageService {
     }
     
     private Rectangle bounds(Type type, Dimension source, Dimension target) {
-        
+    	
         if (target.width < 0 && target.height < 0)
-            return new Rectangle(0, 0, source.width, source.height); 
+            return new Rectangle(0, 0, source.width, source.height);
         if (target.width < 0)
-            return new Rectangle(0, 0, -1, target.height);
-        if (target.height < 0)
-            return new Rectangle(0, 0, target.width, -1);
+        	return type == Type.LIMIT
+        		? new Rectangle(0, 0, -1, Math.min(target.height, source.height))
+				: new Rectangle(0, 0, -1, target.height)
+			;
+        if (target.height < 0) {
+            return type == Type.LIMIT
+        		? new Rectangle(0, 0, Math.min(target.width, source.width), -1)
+				: new Rectangle(0, 0, target.width, -1)
+			;
+        }
+        
+        if (type == Type.LIMIT) {
+        	
+        	if (source.width <= target.width && source.height <= target.height) {
+        		return new Rectangle(0, 0, source.width, source.height);
+        	}
+        }
         
         switch (type) {
         
+        	case LIMIT: 
             case CONTAIN: {
                 
                 float kw = target.width / (float) source.width;
