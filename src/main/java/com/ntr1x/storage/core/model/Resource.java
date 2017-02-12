@@ -66,9 +66,7 @@ public class Resource {
 	@ApiModelProperty(dataType = "Object")
 	private JsonNode extra;
 	
-	@ResourceRelation
-	@ApiModelProperty(hidden = true)
-	@ElementCollection(fetch = FetchType.LAZY)
+	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name="aspects", joinColumns = { @JoinColumn(name = "RelateId") })
 	@Column(name="Aspect")
 	@CascadeOnDelete

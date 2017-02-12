@@ -33,7 +33,7 @@ public class PageableQuery {
 			return new PageRequest(page, size, toSort(sort));
 		}
 		
-		if (page == null) {
+		if (page == null && size != null) {
 			return new PageRequest(0, size, toSort(sort));
 		}
 		
