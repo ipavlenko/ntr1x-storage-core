@@ -66,6 +66,7 @@ public class ResourceResource {
 	@Transactional
 	@RolesAllowed({ "res:///:admin" })
 	public Resource select(@PathParam("id") long id) {
+		
 		return resources.select(scope.get().getId(), id);
     }
 	
