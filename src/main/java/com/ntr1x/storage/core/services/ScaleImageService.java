@@ -1,7 +1,8 @@
 package com.ntr1x.storage.core.services;
 
-import java.awt.Color;
+import java.awt.AlphaComposite;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class ScaleImageService implements IScaleImageService {
 
     @Override
-    public BufferedImage scale(BufferedImage source, Type type, Integer width, Integer height) throws IOException {
+    public BufferedImage scale(BufferedImage source, Type type, boolean allowTransparency, Integer width, Integer height) throws IOException {
         
         Rectangle bounds = bounds(
             type,
@@ -30,13 +31,18 @@ public class ScaleImageService implements IScaleImageService {
         BufferedImage target = new BufferedImage(
             width == null ? scaled.getWidth(null) : width,
             height == null ? scaled.getHeight(null) : height,
-            BufferedImage.SCALE_DEFAULT
+    		allowTransparency ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB
         );
         
-        target.getGraphics().setColor(Color.WHITE);
-        target.getGraphics().fillRect(0, 0, target.getWidth(), target.getHeight());
+        Graphics2D g = target.createGraphics();
         
-        target.getGraphics().drawImage(
+        if (allowTransparency) {
+	        g.setComposite(AlphaComposite.Clear);
+	        g.fillRect(0, 0, target.getWidth(), target.getHeight());
+	        g.setComposite(AlphaComposite.Src);
+        }
+        
+        g.drawImage(
             scaled,
             bounds.x,
             bounds.y,
@@ -44,6 +50,8 @@ public class ScaleImageService implements IScaleImageService {
             bounds.height < 0 ? target.getHeight() : bounds.height,
             null
         );
+        
+        g.dispose();
         
         return target;
     }

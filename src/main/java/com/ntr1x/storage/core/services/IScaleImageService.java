@@ -13,5 +13,5 @@ public interface IScaleImageService {
         ;
     }
 
-    BufferedImage scale(BufferedImage source, Type type, Integer width, Integer height) throws IOException;
+    BufferedImage scale(BufferedImage source, Type type, boolean allowTransparency, Integer width, Integer height) throws IOException;
 }
