@@ -11,18 +11,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class FileService implements IFileService {
 
-	@Configuration
-	public static class Config {
-	    
-	    @Value("${app.files.root}")
-		public String root;
-	}
-	
-	@Inject
+    @Configuration
+    public static class Config {
+        
+        @Value("${app.files.root}")
+        public String root;
+    }
+    
+    @Inject
     private Config config;
 
-	@Override
-	public File resolve(String path) {
-		return new File(config.root, path);
-	}
+    @Override
+    public File resolve(String path) {
+        return new File(config.root, path);
+    }
 }

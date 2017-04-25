@@ -12,8 +12,8 @@ import lombok.AllArgsConstructor;
 @XmlRootElement
 @AllArgsConstructor
 public class PageResponse<T> {
-	
-	public long count;
+    
+    public long count;
     public int page;
     public int size;
 
@@ -21,10 +21,10 @@ public class PageResponse<T> {
     public List<T> content;
     
     public PageResponse(Page<T> p) {
-    	
-    	this.content = p.getContent();
-    	this.count = p.getTotalElements();
-    	this.page = p.getNumber();
-    	this.size = p.getSize();
+        
+        this.content = p.getContent();
+        this.count = p.getTotalElements();
+        this.page = p.getNumber();
+        this.size = p.getSize();
     }
 }

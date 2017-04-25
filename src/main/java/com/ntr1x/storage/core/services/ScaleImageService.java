@@ -31,15 +31,15 @@ public class ScaleImageService implements IScaleImageService {
         BufferedImage target = new BufferedImage(
             width == null ? scaled.getWidth(null) : width,
             height == null ? scaled.getHeight(null) : height,
-    		allowTransparency ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB
+            allowTransparency ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB
         );
         
         Graphics2D g = target.createGraphics();
         
         if (allowTransparency) {
-	        g.setComposite(AlphaComposite.Clear);
-	        g.fillRect(0, 0, target.getWidth(), target.getHeight());
-	        g.setComposite(AlphaComposite.Src);
+            g.setComposite(AlphaComposite.Clear);
+            g.fillRect(0, 0, target.getWidth(), target.getHeight());
+            g.setComposite(AlphaComposite.Src);
         }
         
         g.drawImage(
@@ -57,31 +57,31 @@ public class ScaleImageService implements IScaleImageService {
     }
     
     private Rectangle bounds(Type type, Dimension source, Dimension target) {
-    	
+        
         if (target.width < 0 && target.height < 0)
             return new Rectangle(0, 0, source.width, source.height);
         if (target.width < 0)
-        	return type == Type.LIMIT
-        		? new Rectangle(0, 0, -1, Math.min(target.height, source.height))
-				: new Rectangle(0, 0, -1, target.height)
-			;
+            return type == Type.LIMIT
+                ? new Rectangle(0, 0, -1, Math.min(target.height, source.height))
+                : new Rectangle(0, 0, -1, target.height)
+            ;
         if (target.height < 0) {
             return type == Type.LIMIT
-        		? new Rectangle(0, 0, Math.min(target.width, source.width), -1)
-				: new Rectangle(0, 0, target.width, -1)
-			;
+                ? new Rectangle(0, 0, Math.min(target.width, source.width), -1)
+                : new Rectangle(0, 0, target.width, -1)
+            ;
         }
         
         if (type == Type.LIMIT) {
-        	
-        	if (source.width <= target.width && source.height <= target.height) {
-        		return new Rectangle(0, 0, source.width, source.height);
-        	}
+            
+            if (source.width <= target.width && source.height <= target.height) {
+                return new Rectangle(0, 0, source.width, source.height);
+            }
         }
         
         switch (type) {
         
-        	case LIMIT: 
+            case LIMIT: 
             case CONTAIN: {
                 
                 float kw = target.width / (float) source.width;

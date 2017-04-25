@@ -14,35 +14,35 @@ import org.w3c.dom.Node;
 
 public class JsonStringXmlAdapter extends XmlAdapter<Object, String> {
 
-	@Override
-	public String unmarshal(Object v) throws Exception {
-		
-		if (v instanceof Node) {
-			
-//			((Node)v).getTextContent()
-			Transformer transformer = TransformerFactory.newInstance().newTransformer();
-			StreamResult result = new StreamResult(new StringWriter());
-			DOMSource source = new DOMSource((Node) v);
-			transformer.transform(source, result);
-			System.out.println(result.getWriter().toString());
-			return result.getWriter().toString();
-		}
-		
-		return null;
-	}
+    @Override
+    public String unmarshal(Object v) throws Exception {
+        
+        if (v instanceof Node) {
+            
+//            ((Node)v).getTextContent()
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            StreamResult result = new StreamResult(new StringWriter());
+            DOMSource source = new DOMSource((Node) v);
+            transformer.transform(source, result);
+            System.out.println(result.getWriter().toString());
+            return result.getWriter().toString();
+        }
+        
+        return null;
+    }
 
-	@Override	
-	public Object marshal(String v) throws Exception {
-		
-		if (v != null) {
-			
-			Transformer transformer = TransformerFactory.newInstance().newTransformer();
-			StringSource source = new StringSource(v);
-			DOMResult result = new DOMResult();
-			transformer.transform(source, result);
-			return result.getNode();
-		}
-		
-		return v;
-	}
+    @Override    
+    public Object marshal(String v) throws Exception {
+        
+        if (v != null) {
+            
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            StringSource source = new StringSource(v);
+            DOMResult result = new DOMResult();
+            transformer.transform(source, result);
+            return result.getNode();
+        }
+        
+        return v;
+    }
 }

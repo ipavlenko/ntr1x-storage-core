@@ -16,45 +16,45 @@ import com.ntr1x.storage.core.repository.ParamRepository;
 @Component
 public class ParamService implements IParamService {
 
-	@Inject
-	private EntityManager em;
-	
-	@Inject
-	private ParamRepository params;
-	
-	@Override
-	public List<Param> list(Long scope, long resource, String type) {
-		
-		return params.list(scope, resource, type);
-	}
-	
-	@Override
-	public Properties load(Long scope, long resource, String type) {
-		
-		List<Param> params = list(scope, resource, type);
-		
-		Properties properties = new Properties();
-		
-		if (params != null) {
-			for (Param p : params) {
-				properties.put(p.getName(), p.getValue());
-			}
-		}
-		
-		return properties;
-	}
-	
-	@Override
-	public void createParams(Resource resource, RelatedParam[] related) {
-		
-		if (related != null) {
+    @Inject
+    private EntityManager em;
+    
+    @Inject
+    private ParamRepository params;
+    
+    @Override
+    public List<Param> list(Long scope, long resource, String type) {
+        
+        return params.list(scope, resource, type);
+    }
+    
+    @Override
+    public Properties load(Long scope, long resource, String type) {
+        
+        List<Param> params = list(scope, resource, type);
+        
+        Properties properties = new Properties();
+        
+        if (params != null) {
+            for (Param p : params) {
+                properties.put(p.getName(), p.getValue());
+            }
+        }
+        
+        return properties;
+    }
+    
+    @Override
+    public void createParams(Resource resource, RelatedParam[] related) {
+        
+        if (related != null) {
             
             for (RelatedParam p : related) {
                 
                 Param v = new Param(); {
                     
-                	v.setRelate(resource);
-                	v.setScope(resource.getScope());
+                    v.setRelate(resource);
+                    v.setScope(resource.getScope());
                     v.setType(p.type);
                     v.setName(p.name);
                     v.setValue(p.value);
@@ -65,12 +65,12 @@ public class ParamService implements IParamService {
             
             em.flush();
         }
-	}
+    }
 
-	@Override
-	public void updateParams(Resource resource, RelatedParam[] related) {
-		
-		if (related != null) {
+    @Override
+    public void updateParams(Resource resource, RelatedParam[] related) {
+        
+        if (related != null) {
             
             for (RelatedParam p : related) {
                 
@@ -80,8 +80,8 @@ public class ParamService implements IParamService {
                         
                         Param v = new Param(); {
                             
-                        	v.setRelate(resource);
-                        	v.setScope(resource.getScope());
+                            v.setRelate(resource);
+                            v.setScope(resource.getScope());
                             v.setType(p.type);
                             v.setName(p.name);
                             v.setValue(p.value);
@@ -92,24 +92,24 @@ public class ParamService implements IParamService {
                     }
                     case UPDATE: {
                     
-                    	Param v = params.select(resource.getScope(), p.id); {
-                    		
-                    		v.setName(p.name);
+                        Param v = params.select(resource.getScope(), p.id); {
+                            
+                            v.setName(p.name);
                             v.setValue(p.value);
                             
                             em.merge(v);
-                    	}
+                        }
                         
-                    	break;
+                        break;
                     }
                     case REMOVE: {
                         
                         Param v = params.select(resource.getScope(), p.id); {
-                        	
-                        	if (v.getRelate().getId() != resource.getId() || v.getRelate().getScope() != resource.getScope()) {
-                        		throw new ForbiddenException("Param relates to another scope or resource");
-                        	}
-                        	em.remove(v);
+                            
+                            if (v.getRelate().getId() != resource.getId() || v.getRelate().getScope() != resource.getScope()) {
+                                throw new ForbiddenException("Param relates to another scope or resource");
+                            }
+                            em.remove(v);
                         }
                         break;
                     }
@@ -120,5 +120,5 @@ public class ParamService implements IParamService {
             
             em.flush();
         }
-	}
+    }
 }

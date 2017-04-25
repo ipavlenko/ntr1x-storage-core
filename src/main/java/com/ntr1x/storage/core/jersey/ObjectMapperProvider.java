@@ -25,26 +25,26 @@
 //
 //    public ObjectMapperProvider() {
 //        
-//    	objectMapper = new ObjectMapper()
+//        objectMapper = new ObjectMapper()
 //            .configure(SerializationFeature.WRAP_ROOT_VALUE, true)
 //            .configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true)
 //            .enable(SerializationFeature.INDENT_OUTPUT)
 //            .enableDefaultTyping()
 //            .setAnnotationIntrospector(
-//        		AnnotationIntrospector.pair(
-//            		new JacksonAnnotationIntrospector(),
-//            		new JaxbAnnotationIntrospector(TypeFactory.defaultInstance())
-//        		)
-//    		)
+//                AnnotationIntrospector.pair(
+//                    new JacksonAnnotationIntrospector(),
+//                    new JaxbAnnotationIntrospector(TypeFactory.defaultInstance())
+//                )
+//            )
 //        ;
-//    	
-//    	Reflections reflections = new Reflections("com.ntr1x.storage");
-//    	Set<Class<? extends Resource>> resourceSubTypes = reflections.getSubTypesOf(Resource.class);
-//    	objectMapper.registerSubtypes(resourceSubTypes.toArray(new Class<?>[resourceSubTypes.size()]));
+//        
+//        Reflections reflections = new Reflections("com.ntr1x.storage");
+//        Set<Class<? extends Resource>> resourceSubTypes = reflections.getSubTypesOf(Resource.class);
+//        objectMapper.registerSubtypes(resourceSubTypes.toArray(new Class<?>[resourceSubTypes.size()]));
 //    }
 //
 //    @Override
 //    public ObjectMapper getContext(final Class<?> type) {
-//    	return objectMapper;
+//        return objectMapper;
 //    }
 //}

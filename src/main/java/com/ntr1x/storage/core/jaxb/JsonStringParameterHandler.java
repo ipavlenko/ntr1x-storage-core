@@ -9,24 +9,24 @@ import javax.xml.transform.stream.StreamResult;
 
 public class JsonStringParameterHandler implements DomHandler<String, StreamResult> {
 
-	private StringWriter xmlWriter = new StringWriter();
-	
-	@Override
-	public StreamResult createUnmarshaller(ValidationEventHandler errorHandler) {
-		return new StreamResult(xmlWriter);
-	}
+    private StringWriter xmlWriter = new StringWriter();
+    
+    @Override
+    public StreamResult createUnmarshaller(ValidationEventHandler errorHandler) {
+        return new StreamResult(xmlWriter);
+    }
 
-	@Override
-	public String getElement(StreamResult rt) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getElement(StreamResult rt) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public Source marshal(String n, ValidationEventHandler errorHandler) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Source marshal(String n, ValidationEventHandler errorHandler) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 //    private static final String PARAMETERS_START_TAG = "<parameters>";
 //    private static final String PARAMETERS_END_TAG = "</parameters>";

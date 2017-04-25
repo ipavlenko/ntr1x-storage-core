@@ -10,10 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JsonStatus {
-	
-	public int code;
-	public Status status;
-	public Status.Family family;
-	public String reason;
-	public String message;
+    
+    public int code;
+    public Status status;
+    public Status.Family family;
+    public String reason;
+    public String message;
 }

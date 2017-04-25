@@ -18,31 +18,31 @@ import com.ntr1x.storage.core.transport.JsonStatus;
 @Provider
 @Component
 public class ExceptionMapperProvider implements ExceptionMapper<Exception> {
-	
-	private static final Logger LOG = Logger.getLogger(ExceptionMapperProvider.class.getName());
-	
-	@Override
-	public Response toResponse(Exception exception) {
-		
-		LOG.log(Level.INFO, exception.getMessage(), exception);
-		
-		StatusType info = exception instanceof WebApplicationException
-			? ((WebApplicationException) exception).getResponse().getStatusInfo()
-			: Status.INTERNAL_SERVER_ERROR
-		;
-			
-		JsonStatus status = new JsonStatus(
-			info.getStatusCode(),
-			Response.Status.fromStatusCode(info.getStatusCode()),
-			info.getFamily(),
-			info.getReasonPhrase(),
-			exception.getMessage()
-		);
-		
-		return Response.status(status.status)
-			.entity(status)
-			.type(MediaType.APPLICATION_JSON_TYPE)
-			.build()
-	    ;
-	}
+    
+    private static final Logger LOG = Logger.getLogger(ExceptionMapperProvider.class.getName());
+    
+    @Override
+    public Response toResponse(Exception exception) {
+        
+        LOG.log(Level.INFO, exception.getMessage(), exception);
+        
+        StatusType info = exception instanceof WebApplicationException
+            ? ((WebApplicationException) exception).getResponse().getStatusInfo()
+            : Status.INTERNAL_SERVER_ERROR
+        ;
+            
+        JsonStatus status = new JsonStatus(
+            info.getStatusCode(),
+            Response.Status.fromStatusCode(info.getStatusCode()),
+            info.getFamily(),
+            info.getReasonPhrase(),
+            exception.getMessage()
+        );
+        
+        return Response.status(status.status)
+            .entity(status)
+            .type(MediaType.APPLICATION_JSON_TYPE)
+            .build()
+        ;
+    }
 }

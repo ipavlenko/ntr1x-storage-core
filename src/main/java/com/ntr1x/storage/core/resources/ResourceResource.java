@@ -30,52 +30,52 @@ import io.swagger.annotations.ApiParam;
 @Component
 @PermitAll
 public class ResourceResource {
-	
-	@Inject
-	private IResourceService resources;
-	
-	@Inject
-	private Provider<IUserScope> scope;
-	
-	@GET
+    
+    @Inject
+    private IResourceService resources;
+    
+    @Inject
+    private Provider<IUserScope> scope;
+    
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
-	@Transactional
-	@RolesAllowed({ "res:///:admin" })
-	public ResourcePageResponse list(
-    		@QueryParam("pattern") @ApiParam(example = "%") String pattern,
-    		@BeanParam PageableQuery pageable
+    @Transactional
+    @RolesAllowed({ "res:///:admin" })
+    public ResourcePageResponse list(
+            @QueryParam("pattern") @ApiParam(example = "%") String pattern,
+            @BeanParam PageableQuery pageable
     ) {
-		
-		Page<Resource> p = resources.query(
-			scope.get().getId(),
-			pattern,
-			pageable.toPageRequest()
-		);
+        
+        Page<Resource> p = resources.query(
+            scope.get().getId(),
+            pattern,
+            pageable.toPageRequest()
+        );
         
         return new ResourcePageResponse(
-    		p.getTotalElements(),
-    		p.getNumber(),
-    		p.getSize(),
-    		p.getContent()
-		);
+            p.getTotalElements(),
+            p.getNumber(),
+            p.getSize(),
+            p.getContent()
+        );
     }
-	
-	@GET
-	@Path("/i/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Transactional
-	@RolesAllowed({ "res:///:admin" })
-	public Resource select(@PathParam("id") long id) {
-		
-		return resources.select(scope.get().getId(), id);
+    
+    @GET
+    @Path("/i/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Transactional
+    @RolesAllowed({ "res:///:admin" })
+    public Resource select(@PathParam("id") long id) {
+        
+        return resources.select(scope.get().getId(), id);
     }
-	
-	@GET
-	@Path("/a/{alias}")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Transactional
-	@RolesAllowed({ "res:///:admin" })
-	public Resource select(@PathParam("alias") String alias) {
-		return resources.select(scope.get().getId(), alias);
+    
+    @GET
+    @Path("/a/{alias}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Transactional
+    @RolesAllowed({ "res:///:admin" })
+    public Resource select(@PathParam("alias") String alias) {
+        return resources.select(scope.get().getId(), alias);
     }
 }

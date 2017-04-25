@@ -46,80 +46,80 @@ import lombok.Setter;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Resource {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "Id")
-	@ApiModelProperty(readOnly = true)
-	private Long id;
-	
-	@Column(name = "Scope", nullable = false, updatable = false)
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id")
+    @ApiModelProperty(readOnly = true)
+    private Long id;
+    
+    @Column(name = "Scope", nullable = false, updatable = false)
     private long scope;
 
-	@Column(name = "Alias")
-	@ApiModelProperty(hidden = true)
-	@ResourceExtra
-	private String alias;
-	
-	@Lob
-	@Column(name = "Extra", nullable = true)
-	@ApiModelProperty(dataType = "Object")
-	private JsonNode extra;
-	
-	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name="aspects", joinColumns = { @JoinColumn(name = "RelateId") })
-	@Column(name="Aspect")
-	@CascadeOnDelete
-	private List<String> aspects;
-	
-	@Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
+    @Column(name = "Alias")
+    @ApiModelProperty(hidden = true)
+    @ResourceExtra
+    private String alias;
+    
+    @Lob
+    @Column(name = "Extra", nullable = true)
+    @ApiModelProperty(dataType = "Object")
+    private JsonNode extra;
+    
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name="aspects", joinColumns = { @JoinColumn(name = "RelateId") })
+    @Column(name="Aspect")
+    @CascadeOnDelete
+    private List<String> aspects;
+    
+    @Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
     @Retention(RetentionPolicy.RUNTIME)
     @Documented
     @ResourceFiltering
     public static @interface ResourceProperty {
-	    
+        
         @NoArgsConstructor(access = AccessLevel.PRIVATE)
         @SuppressWarnings("all")
         public static class Factory extends AnnotationLiteral<ResourceProperty> implements ResourceProperty {
-	        
+            
             private static final long serialVersionUID = 681781097193743580L;
-	        
+            
             public static ResourceProperty get() {
                 
                 return new Factory();
             }
-	    }
+        }
     }
-	
-	@Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
+    
+    @Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
     @Retention(RetentionPolicy.RUNTIME)
     @Documented
     @ResourceFiltering
     public static @interface ResourceExtra {
-	    
+        
         @NoArgsConstructor(access = AccessLevel.PRIVATE)
         @SuppressWarnings("all")
-	    public static class Factory extends AnnotationLiteral<ResourceExtra> implements ResourceExtra {
-	        
-			private static final long serialVersionUID = -3232670346588359325L;
+        public static class Factory extends AnnotationLiteral<ResourceExtra> implements ResourceExtra {
+            
+            private static final long serialVersionUID = -3232670346588359325L;
 
-			public static ResourceExtra get() {
+            public static ResourceExtra get() {
                 
                 return new Factory();
             }
-	    }
+        }
     }
-	
-	@Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
+    
+    @Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
     @Retention(RetentionPolicy.RUNTIME)
     @Documented
     @ResourceFiltering
     public static @interface ResourceRelation {
-	    
-	    @NoArgsConstructor(access = AccessLevel.PRIVATE)
-	    @SuppressWarnings("all")
-	    public static class Factory extends AnnotationLiteral<ResourceRelation> implements ResourceRelation {
-	        
+        
+        @NoArgsConstructor(access = AccessLevel.PRIVATE)
+        @SuppressWarnings("all")
+        public static class Factory extends AnnotationLiteral<ResourceRelation> implements ResourceRelation {
+            
             private static final long serialVersionUID = 6273053186871368162L;
 
             public static ResourceRelation get() {
@@ -127,5 +127,5 @@ public class Resource {
                 return new Factory();
             }
         }
-	}
+    }
 }

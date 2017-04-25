@@ -18,7 +18,7 @@ import lombok.Setter;
 @Service
 public class PageService implements IPageService {
 
-	@Value("${app.public.url}")
+    @Value("${app.public.url}")
     private String url;
     
     @Setter
@@ -32,7 +32,7 @@ public class PageService implements IPageService {
         @Setter
         @Getter
         public static class Template {
-        	
+            
             private String path;
             private Map<String, Object> settings;
         }
@@ -40,23 +40,23 @@ public class PageService implements IPageService {
     
     @Inject
     private Config config;
-	
-	@Inject
+    
+    @Inject
     private VelocityEngine velocity;
-	
-	@Override
-	public String page(String name, Map<String, ?> model) {
-		
-		Config.Template template = config.templates.get(name);
-		
-		VelocityContext context = new VelocityContext(); {
-			
-			context.put("settings", template.settings);
-			context.put("model", model);
+    
+    @Override
+    public String page(String name, Map<String, ?> model) {
+        
+        Config.Template template = config.templates.get(name);
+        
+        VelocityContext context = new VelocityContext(); {
+            
+            context.put("settings", template.settings);
+            context.put("model", model);
         };
         
         StringWriter writer = new StringWriter();
         velocity.mergeTemplate(template.path, "UTF-8", context, writer);
         return writer.toString();
-	}
+    }
 }

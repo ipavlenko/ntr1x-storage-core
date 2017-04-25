@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 
 public interface IParamService {
 
-	Properties load(Long scope, long resource, String type);
-	
-	void createParams(Resource resource, RelatedParam[] params);
+    Properties load(Long scope, long resource, String type);
+    
+    void createParams(Resource resource, RelatedParam[] params);
     void updateParams(Resource resource, RelatedParam[] params);
     
     List<Param> list(Long scope, long resource, String type);

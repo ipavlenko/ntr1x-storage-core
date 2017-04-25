@@ -17,50 +17,50 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class RendererService implements IRendererService {
 
-	@Inject
+    @Inject
     private VelocityEngine engine;
-	
-	@Override
-	public ITemplateRenderer renderer(String name) {
-		
-		return new TemplateRenderer(name, engine, new VelocityContext());
-	}
-	
-	@RequiredArgsConstructor
-	public static class TemplateRenderer implements ITemplateRenderer {
-		
-		private final String name;
-		private final VelocityEngine engine;
-		private final VelocityContext context;
-		
-		@Override
-		public TemplateRenderer with(String key, Object value) {
-			context.put(key, value);
-			return this;
-		}
-		
-		@Override
-		public String render(String content) {
-			
-			StringWriter writer = new StringWriter();
-			engine.evaluate(context, writer, name, content);
-			return writer.toString();
-		}
-		
-		@Override
-		public String render(URL url) {
-			
-			try (InputStream input = url.openStream()) {
-				
-				StringWriter writer = new StringWriter();
-				IOUtils.copy(input, writer, "UTF-8");
-				
-				return render(writer.toString());
-				
-			} catch (IOException e) {
-				
-				throw new IllegalArgumentException(e);
-			}
-		}
-	}
+    
+    @Override
+    public ITemplateRenderer renderer(String name) {
+        
+        return new TemplateRenderer(name, engine, new VelocityContext());
+    }
+    
+    @RequiredArgsConstructor
+    public static class TemplateRenderer implements ITemplateRenderer {
+        
+        private final String name;
+        private final VelocityEngine engine;
+        private final VelocityContext context;
+        
+        @Override
+        public TemplateRenderer with(String key, Object value) {
+            context.put(key, value);
+            return this;
+        }
+        
+        @Override
+        public String render(String content) {
+            
+            StringWriter writer = new StringWriter();
+            engine.evaluate(context, writer, name, content);
+            return writer.toString();
+        }
+        
+        @Override
+        public String render(URL url) {
+            
+            try (InputStream input = url.openStream()) {
+                
+                StringWriter writer = new StringWriter();
+                IOUtils.copy(input, writer, "UTF-8");
+                
+                return render(writer.toString());
+                
+            } catch (IOException e) {
+                
+                throw new IllegalArgumentException(e);
+            }
+        }
+    }
 }

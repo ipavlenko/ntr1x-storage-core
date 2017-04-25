@@ -34,14 +34,14 @@ public class SerializationService implements ISerializationService {
 //    @Inject
 //    private ServiceLocatorProvider locator;
     
-	@Inject
-	private ObjectMapper mapper;
-	
-	@PostConstruct
-	private void init() {
-		JsonNodeConverter.setSerializationService(this);
-	}
-	
+    @Inject
+    private ObjectMapper mapper;
+    
+    @PostConstruct
+    private void init() {
+        JsonNodeConverter.setSerializationService(this);
+    }
+    
     @Override
     public String toJSONStringMOXY(Object object, Class<?>... context) {
         
@@ -71,9 +71,9 @@ public class SerializationService implements ISerializationService {
     }
     
     @Override
-	public String toXMLStringMOXY(Object object, Class<?>... context) {
-    	
-    	try {
+    public String toXMLStringMOXY(Object object, Class<?>... context) {
+        
+        try {
             
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             
@@ -94,7 +94,7 @@ public class SerializationService implements ISerializationService {
             
             throw new IllegalArgumentException(e);
         }
-	}
+    }
 
     @Override
     public <T> T parseJSONStringMOXY(Class<T> clazz, String string, Class<?>... context) {
@@ -125,9 +125,9 @@ public class SerializationService implements ISerializationService {
     }
 
     @Override
-	public <T> T parseXMLStringMOXY(Class<T> clazz, String string, Class<?>... context) {
-    	
-    	try {
+    public <T> T parseXMLStringMOXY(Class<T> clazz, String string, Class<?>... context) {
+        
+        try {
             
             StringReader reader = new StringReader(string);
             
@@ -148,65 +148,65 @@ public class SerializationService implements ISerializationService {
             
             throw new IllegalArgumentException(e);
         }
-	}
+    }
     
     private Class<?>[] context(Class<?> clazz, Class<?>... context) {
-    	Class<?>[] result = Arrays.copyOf(context, context.length + 1);
-    	result[context.length] = clazz;
-    	return result;
+        Class<?>[] result = Arrays.copyOf(context, context.length + 1);
+        result[context.length] = clazz;
+        return result;
     }
     
     @Override
-	public String toJSONStringJackson(Object object) {
-		try {
-			return mapper.writeValueAsString(object);
-		} catch (JsonProcessingException e) {
-			throw new IllegalStateException();
-		}
-	}
+    public String toJSONStringJackson(Object object) {
+        try {
+            return mapper.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            throw new IllegalStateException();
+        }
+    }
     
     @Override
-	public <T> T parseJSONStringJackson(Class<T> clazz, String string) {
-		
-    	try {
-			return mapper.readValue(string, clazz);
-		} catch (IOException e) {
-			throw new IllegalStateException(e);
-		}
-	}
+    public <T> T parseJSONStringJackson(Class<T> clazz, String string) {
+        
+        try {
+            return mapper.readValue(string, clazz);
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
+        }
+    }
     
     @Override
-	public <T> T parseJSONNodeJackson(Class<T> clazz, JsonNode node) {
-    	
-    	return mapper.convertValue(node, clazz);
-	}
+    public <T> T parseJSONNodeJackson(Class<T> clazz, JsonNode node) {
+        
+        return mapper.convertValue(node, clazz);
+    }
     
     @Override
-	public JsonNode readJSONNodeJackson(String string) {
-		
-    	try {
-			
-    		return mapper.readValue(string, JsonNode.class);
-		
-    	} catch (IOException e) {
-			
-			throw new IllegalArgumentException(e);
-		}
-	}
+    public JsonNode readJSONNodeJackson(String string) {
+        
+        try {
+            
+            return mapper.readValue(string, JsonNode.class);
+        
+        } catch (IOException e) {
+            
+            throw new IllegalArgumentException(e);
+        }
+    }
     
     @Override
-	public JsonNode readJSONNodeJackson(URL url) {
-    	
-    	try (InputStream input = url.openStream()) {
-			
-			StringWriter writer = new StringWriter();
-			IOUtils.copy(input, writer, "UTF-8");
-			
-			return readJSONNodeJackson(writer.toString());
-			
-		} catch (IOException e) {
-			
-			throw new IllegalArgumentException(e);
-		}
-	}
+    public JsonNode readJSONNodeJackson(URL url) {
+        
+        try (InputStream input = url.openStream()) {
+            
+            StringWriter writer = new StringWriter();
+            IOUtils.copy(input, writer, "UTF-8");
+            
+            return readJSONNodeJackson(writer.toString());
+            
+        } catch (IOException e) {
+            
+            throw new IllegalArgumentException(e);
+        }
+    }
 }
