@@ -1,13 +1,14 @@
 package com.ntr1x.storage.core.services;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.ntr1x.storage.core.model.Action;
-import com.ntr1x.storage.core.model.Resource;
 import com.ntr1x.storage.core.model.Param;
+import com.ntr1x.storage.core.model.Resource;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public interface IParamService {
     void updateParams(Resource resource, RelatedParam[] params);
     
     List<Param> list(Long scope, long resource, String type);
+    Map<String, String> map(Long scope, long resource, String type);
     
     @XmlRootElement
     @NoArgsConstructor

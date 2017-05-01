@@ -1,6 +1,8 @@
 package com.ntr1x.storage.core.services;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.inject.Inject;
@@ -9,8 +11,8 @@ import javax.ws.rs.ForbiddenException;
 
 import org.springframework.stereotype.Component;
 
-import com.ntr1x.storage.core.model.Resource;
 import com.ntr1x.storage.core.model.Param;
+import com.ntr1x.storage.core.model.Resource;
 import com.ntr1x.storage.core.repository.ParamRepository;
 
 @Component
@@ -26,6 +28,18 @@ public class ParamService implements IParamService {
     public List<Param> list(Long scope, long resource, String type) {
         
         return params.list(scope, resource, type);
+    }
+    
+    @Override
+    public Map<String, String> map(Long scope, long resource, String type) {
+        
+        Map<String, String> map = new HashMap<>();
+        for (Param param : params.list(scope, resource, type)) {
+            
+            map.put(param.getName(), param.getValue());
+        }
+        
+        return map;
     }
     
     @Override
